@@ -10,8 +10,8 @@ export function RequireWebcam(props: RequireWebcamProps) {
     const webcam = useContext(WebcamContext);
     return (
         <React.Fragment>
-            <WebcamNotice show={webcam == null} />
             {props.children}
+            <WebcamNotice show={!webcam} />
         </React.Fragment>
     );
 };

@@ -11,14 +11,16 @@ export function WebcamProvider (props: WebcamProviderProps) {
     const [webcam, setWebcam] = useState<WebcamContextValue>(undefined);
     useEffect(() => {
         let isSuscribed = true;
-        const promise = navigator.mediaDevices.getUserMedia(constraints);
-        promise
-            .then(stream => {
-                if (isSuscribed) {
-                    setWebcam(stream);
-                }
-            })
-            .catch(console.error);
+        if (navigator?.mediaDevices?.getUserMedia) {
+            const promise = navigator.mediaDevices.getUserMedia(constraints);
+            promise
+                .then(stream => {
+                    if (isSuscribed) {
+                        setWebcam(stream);
+                    }
+                })
+                .catch(console.error);
+        }
         return () => { isSuscribed = false };
     }, [constraints]);
     return (

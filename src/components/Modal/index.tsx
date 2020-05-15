@@ -39,6 +39,7 @@ export function Modal(props: ModalProps) {
         {
             transition.map(({ item, key, props: style }) => item && (
                 <animated.div
+                    key={key}
                     className='Modal_Container'
                     style={style}
                     onClick={props.onClose}
