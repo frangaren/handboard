@@ -1,15 +1,20 @@
 import React from 'react';
 
 import { Board } from './components/Board';
-import { RequireWebcam } from './components/webcam/RequireWebcam';
 import { WebcamProvider } from './components/webcam/WebcamProvider';
-import { WebcamNotice } from './components/webcam/WebcamNotice';
+import { RequireWebcam } from './components/webcam/RequireWebcam';
+import { GamepadsProvider } from './components/gamepads/GamepadsProvider';
+import { RequireGamepad } from './components/gamepads/RequireGamepad';
 
 function App() {
     return (
-        <WebcamProvider video audio>
+        <WebcamProvider video>
             <RequireWebcam>
-                <WebcamNotice show/>
+                <GamepadsProvider>
+                    <RequireGamepad>
+
+                    </RequireGamepad>
+                </GamepadsProvider>
             </RequireWebcam>
         </WebcamProvider>
     );

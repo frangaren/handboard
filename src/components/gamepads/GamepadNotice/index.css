@@ -1,0 +1,18 @@
+.GamepadNotice_Container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.GamepadNotice_Icon {
+    display: block;
+    width: 1em;
+    height: 1em;
+    font-size: 8em;
+}
+
+.GamepadNotice_Caption {
+    display: block;
+    margin-left: 2em;
+    width: 24em;
+}
