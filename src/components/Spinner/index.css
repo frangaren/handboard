@@ -1,0 +1,19 @@
+@keyframes Spinner {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.Spinner {
+    display: block;
+    box-sizing: border-box;
+    border-radius: 50%;
+    border: 0.5em solid #2d8fd5;
+    border-top-color: #eceeef;
+    animation: Spinner 2s linear infinite;
+    color: transparent;
+    user-select: none;
+}

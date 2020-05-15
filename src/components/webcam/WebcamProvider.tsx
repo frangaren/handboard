@@ -1,4 +1,4 @@
-import React, {useState, useEffect, Props} from 'react';
+import React, {useState, useEffect} from 'react';
 
 import { WebcamContextValue, WebcamContext } from './WebcamContext';
 

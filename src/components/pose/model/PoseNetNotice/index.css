@@ -1,0 +1,18 @@
+.PoseNotice_Container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.PoseNotice_Spinner {
+    display: block;
+    padding: 1em;
+    width: 6em;
+    height: 6em;
+}
+
+.PoseNotice_Caption {
+    display: block;
+    margin-left: 2em;
+    width: 24em;
+}
