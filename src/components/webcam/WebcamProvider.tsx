@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Props} from 'react';
 
 import { WebcamContextValue, WebcamContext } from './WebcamContext';
 
@@ -7,13 +7,12 @@ export interface WebcamProviderProps extends MediaStreamConstraints {
 };
 
 export function WebcamProvider (props: WebcamProviderProps) {
-    const { children, ...constraints } = props;
     const [webcam, setWebcam] = useState<WebcamContextValue>(undefined);
     useEffect(() => {
         let isSuscribed = true;
         if (navigator?.mediaDevices?.getUserMedia) {
-            const promise = navigator.mediaDevices.getUserMedia(constraints);
-            promise
+            const {children: _, ...constraints} = props;
+            navigator.mediaDevices.getUserMedia(constraints)
                 .then(stream => {
                     if (isSuscribed) {
                         setWebcam(stream);
@@ -22,10 +21,10 @@ export function WebcamProvider (props: WebcamProviderProps) {
                 .catch(console.error);
         }
         return () => { isSuscribed = false };
-    }, [constraints]);
+    }, [props]);
     return (
         <WebcamContext.Provider value={webcam}>
-            {children}
+            {props.children}
         </WebcamContext.Provider>
     );
 };

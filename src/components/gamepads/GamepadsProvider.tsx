@@ -7,7 +7,7 @@ export interface GamepadsProviderProps {
 };
 
 export function GamepadsProvider(props: GamepadsProviderProps) {
-    const [Gamepads, setGamepads] = useState<GamepadsContextValue>([]);
+    const [gamepads, setGamepads] = useState<GamepadsContextValue>([]);
     useEffect(() => {
         function on_gamepad_connected() {
             setGamepads(navigator.getGamepads());
@@ -28,9 +28,9 @@ export function GamepadsProvider(props: GamepadsProviderProps) {
                 on_gamepad_disconnected
             );
         };
-    }, [Gamepads]);
+    }, []);
     return (
-        <GamepadsContext.Provider value={Gamepads}>
+        <GamepadsContext.Provider value={gamepads}>
             {props.children}
         </GamepadsContext.Provider>
     );
