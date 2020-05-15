@@ -1,0 +1,18 @@
+.WebcamNotice_Container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.WebcamNotice_Icon {
+    display: block;
+    width: 1em;
+    height: 1em;
+    font-size: 8em;
+}
+
+.WebcamNotice_Caption {
+    display: block;
+    margin-left: 2em;
+    width: 24em;
+}

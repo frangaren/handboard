@@ -1,0 +1,70 @@
+.Modal_Container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgba(55, 64, 71, 0.75);
+}
+
+.Modal_Window {
+    display: block;
+    background-color: #ffffff;
+    border-radius: 8px;
+}
+
+.Modal_TitleBar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 12px;
+    background: #dee1e3;
+    background: linear-gradient(
+        0deg,
+        #eceeef 0%,
+        #dee1e3 30%,
+        #dee1e3 70%,
+        #eceeef 100%
+    );
+    border-radius: 8px 8px 0 0;
+    border: 1px solid #374047;
+    border-bottom: 1px solid #98a1a8;
+}
+
+.Modal_Title {
+    margin-right: auto;
+    padding-right: 16px;
+    text-align: center;
+    color: #374047;
+    text-shadow: 1px 1px #cfd3d7;
+}
+
+.Modal_Close {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #d2202f;
+    text-shadow: 1px 1px #cfd3d7;
+    transition: color 0.5s;
+}
+
+.Modal_Close:hover {
+    color: #df5f6a;
+}
+
+.Modal_Content {
+    padding: 8px 12px;
+    border-radius: 0 0 8px 8px;
+    color: #374047;
+    border: 1px solid #374047;
+    border-top: 1px solid #eceeef;
+}
+
+.Modal_Content::after {
+    display: block;
+    content: '';
+    clear: both;
+}
