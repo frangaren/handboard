@@ -1,0 +1,13 @@
+.Toolbar {
+    display: flex;
+    position: absolute;
+    margin: 48px;
+}
+
+.Toolbar_Horizontal {
+    flex-direction: row;
+}
+
+.Toolbar_Vertical {
+    flex-direction: column;
+}

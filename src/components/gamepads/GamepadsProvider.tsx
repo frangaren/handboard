@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { GamepadsContextValue, GamepadsContext } from './GamepadsContext';
 
 export interface GamepadsProviderProps {
-    children: React.ReactNode,
+    children?: React.ReactNode,
+    pollingInterval?: number,
 };
 
 export function GamepadsProvider(props: GamepadsProviderProps) {
@@ -17,6 +18,9 @@ export function GamepadsProvider(props: GamepadsProviderProps) {
         };
         window.addEventListener('gamepadconnected', on_gamepad_connected);
         window.addEventListener('gamepaddisconnected', on_gamepad_disconnected);
+        const interval = setInterval(() => {
+            setGamepads(navigator.getGamepads());
+        }, props.pollingInterval ?? 50);
         setGamepads(navigator.getGamepads())
         return () => {
             window.removeEventListener(
@@ -27,6 +31,7 @@ export function GamepadsProvider(props: GamepadsProviderProps) {
                 'gamepaddisconnected',
                 on_gamepad_disconnected
             );
+            clearInterval(interval);
         };
     }, []);
     return (

@@ -1,0 +1,67 @@
+.Toolbar_Button {
+    box-sizing: border-box;
+    padding: 8px 12px;
+    background: #dee1e3;
+    background: linear-gradient(
+        90deg,
+        #eceeef 0%,
+        #dee1e3 30%,
+        #dee1e3 70%,
+        #eceeef 100%
+    );
+    border: 1px solid #374047;
+    text-align: center;
+    color: #374047;
+    text-shadow: 1px 1px #cfd3d7;
+    width: 64px;
+    height: 48px;
+    line-height: 24px;
+}
+
+.Toolbar.Toolbar_Horizontal .Toolbar_Button{
+    background: linear-gradient(
+        0deg,
+        #eceeef 0%,
+        #dee1e3 30%,
+        #dee1e3 70%,
+        #eceeef 100%
+    );
+    border-left: 1px solid #f9f9fa;
+    border-right: 1px solid #98a1a8;
+}
+
+.Toolbar.Toolbar_Vertical .Toolbar_Button{
+    background: linear-gradient(
+        90deg,
+        #eceeef 0%,
+        #dee1e3 30%,
+        #dee1e3 70%,
+        #eceeef 100%
+    );
+    border-top: 1px solid #f9f9fa;
+    border-bottom: 1px solid #98a1a8;
+}
+
+.Toolbar.Toolbar_Horizontal .Toolbar_Button:first-of-type {
+    border-radius: 8px 0 0 8px;
+    border-left: 1px solid #374047;
+}
+
+.Toolbar.Toolbar_Horizontal .Toolbar_Button:last-of-type {
+    border-radius: 0 8px 8px 0;
+    border-right: 1px solid #374047;
+}
+
+.Toolbar.Toolbar_Vertical .Toolbar_Button:first-of-type {
+    border-radius: 8px 8px 0 0;
+    border-top: 1px solid #374047;
+}
+
+.Toolbar.Toolbar_Vertical .Toolbar_Button:last-of-type {
+    border-radius: 0 0 8px 8px;
+    border-bottom: 1px solid #374047;
+}
+
+.Toolbar_Button_Active {
+    color: #2d8fd5;
+}

@@ -1,0 +1,18 @@
+#PoseCursor_Container {
+    display: block;
+    pointer-events: none;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+#PoseCursor_Container .PoseCursor_Hand {
+    display: block;
+    width: 32px;
+    height: 32px;
+    position: fixed;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
