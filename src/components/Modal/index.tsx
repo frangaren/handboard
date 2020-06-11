@@ -60,7 +60,7 @@ interface ModalWindowProps {
 };
 
 function ModalWindow (props: ModalWindowProps) {
-    const transition = useTransition(props.show ?? false, null, {
+    const transition = useTransition(props.show ?? false, null, {
         from: { transform: 'scale(0.0)' },
         enter: { transform: 'scale(1.0)' },
         leave: { transform: 'scale(0.0)' },

@@ -44,8 +44,8 @@ export function PoseProvider (props: PoseProviderProps) {
                             const height = model.inputResolution[0];
                             if (props.normalized) {
                                 pose.keypoints.forEach(keypoint => {
-                                    keypoint.position.x = ((keypoint.position.x / width) - 0) / 1.0;
-                                    keypoint.position.y = ((keypoint.position.y / height) - 0) / 1.0;
+                                    keypoint.position.x = ((keypoint.position.x / width) - 0.15) / 0.7;
+                                    keypoint.position.y = ((keypoint.position.y / height) - 0.15) / 0.7;
                                 });
                             }
                             setPose(pose);

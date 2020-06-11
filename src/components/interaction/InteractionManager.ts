@@ -49,7 +49,7 @@ export class InteractionManager {
         }
         const windowSize = new Vector(window.innerWidth, window.innerHeight);
         const windowPoint = Vector.prod(point, windowSize);
-        for (let i = this.regions.length - 1; i >= 0; i++) {
+        for (let i = this.regions.length - 1; i >= 0; i--) {
             if (this.regions[i] !== undefined) {
                 for (let j = 0; j < this.regions[i].length; j++) {
                     if (this.regions[i][j].contains(windowPoint)) {
@@ -688,6 +688,10 @@ export class InteractionManager {
                 }
             }
         }
+        this.leftAction = newLeftAction;
+        this.rightAction = newRightAction;
+        this.leftFocus = newLeftFocus;
+        this.rightFocus = newRightFocus;
     }
 };
 

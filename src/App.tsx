@@ -28,14 +28,14 @@ function App() {
                             architecture='MobileNetV1'
                             outputStride={16}
                             inputResolution={{
-                                width: 320,
-                                height: 240
+                                width: 640,
+                                height: 480
                             }}
-                            multiplier={1.0}
+                            multiplier={0.5}
                             quantBytes={4}
                         >
                             <RequirePoseNet>
-                                <PoseProvider normalized pollingInterval={50}>
+                                <PoseProvider normalized pollingInterval={75}>
                                     <SmoothHandProvider
                                         mincutoff={0.5}
                                         beta={10.0}

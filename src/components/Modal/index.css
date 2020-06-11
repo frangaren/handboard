@@ -8,6 +8,13 @@
     top: 0;
     left: 0;
     background-color: rgba(55, 64, 71, 0.75);
+    z-index: 1000000;
+    overflow: hidden;
+    transition: width 1s ease-in-out, height 1s ease-in-out;
+}
+
+.Modal_Container::-webkit-scrollbar {
+    display: none;
 }
 
 .Modal_Window {

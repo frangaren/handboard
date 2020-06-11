@@ -1,5 +1,7 @@
-#Canvas {
+.Canvas {
+    overflow: hidden;
     display: block;
     width: 100vw;
     height: 100vh;
+    transition: width 1s ease-in-out, height 1s ease-in-out;
 }

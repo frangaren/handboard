@@ -6,6 +6,12 @@
     position: fixed;
     top: 0;
     left: 0;
+    z-index: 1000;
+    overflow: hidden;
+}
+
+#PoseCursor_Container::-webkit-scrollbar {
+    display: none;
 }
 
 #PoseCursor_Container .PoseCursor_Hand {
