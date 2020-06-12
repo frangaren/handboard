@@ -7,6 +7,7 @@ import { Vector, VectorLike } from '../Vector';
 import { Transform } from '../Transform';
 import { useRatioTransform } from '../hooks/useRatioTransform';
 import { StrokeData } from './Stroke';
+import { ColorDialog } from './ColorDialog';
 
 
 export type Tool = 'none' | 'pencil' | 'eraser' | 'color-picker';
@@ -30,8 +31,8 @@ export function Board(props: BoardProps) {
         color: 'black',
         points: [],
     });
-    const [leftColor, setLeftColor] = useState<string>('#000000');
-    const [rightColor, setRightColor] = useState<string>('#000000');
+    const [leftColor, setLeftColor] = useState<string>('#374047');
+    const [rightColor, setRightColor] = useState<string>('#374047');
     const [strokes, setStrokes] = useState<StrokeData[]>();
     const ratioTransform = useRatioTransform();
     const [transform, setTransform] = useState<Transform>(Transform.id());
@@ -242,6 +243,7 @@ export function Board(props: BoardProps) {
                     active={leftTool === 'color-picker'}
                     interactionPriority={1}
                     onInteractStart={() => setLeftTool('color-picker')}
+                    color={leftColor}
                 >
                     <RiPaletteLine size='1.5em' style={{
                         margin: '3px'
@@ -339,12 +341,29 @@ export function Board(props: BoardProps) {
                     active={rightTool === 'color-picker'}
                     interactionPriority={1}
                     onInteractStart={() => setRightTool('color-picker')}
+                    color={rightColor}
                 >
                     <RiPaletteLine size='1.5em' style={{
                         margin: '3px'
                     }} />
                 </Toolbar.Button>
             </Toolbar>
+            <ColorDialog
+                onChange = {(color: string) => {
+                    setLeftColor(color);
+                    setLeftTool('none');
+                }}
+                value = {leftColor}
+                show = {leftTool === 'color-picker'}
+            />
+            <ColorDialog
+                onChange={(color: string) => {
+                    setRightColor(color);
+                    setRightTool('none');
+                }}
+                value={rightColor}
+                show={rightTool === 'color-picker'}
+            />
         </>
     );
 };

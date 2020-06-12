@@ -18,6 +18,8 @@ import {
 import { PoseCursor } from './components/interaction/PoseCursor';
 import { InteractionProvider } from './components/interaction/InteractionProvider';
 
+//mincutoff = 0.5
+
 function App() {
     return (
         <WebcamProvider video>
@@ -37,7 +39,7 @@ function App() {
                             <RequirePoseNet>
                                 <PoseProvider normalized pollingInterval={75}>
                                     <SmoothHandProvider
-                                        mincutoff={0.5}
+                                        mincutoff={0.0000001}
                                         beta={10.0}
                                         ddcutoff={0.005}
                                     >
