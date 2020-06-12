@@ -60,7 +60,7 @@ export function SmoothHandProvider (props: SmoothHandProviderProps) {
             pose.keypoints[9].position,
             pose.keypoints[10].position,
         ];
-        hands = inversionFilter.filter(hands[0], hands[1], dt / 1000);
+        //hands = inversionFilter.filter(hands[0], hands[1], dt / 1000);
         hands = smoothFilter.filter(hands[0], hands[1], dt / 1000);
         setLastTime(t);
         setHands(hands);

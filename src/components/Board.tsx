@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { RiPencilLine, RiEraserLine, RiPaletteLine } from 'react-icons/ri';
-
+import { v4 as uuid } from 'uuid';
 import { Canvas } from './Canvas';
 import { Toolbar } from './Toolbar';
 import { Vector, VectorLike } from '../Vector';
 import { Transform } from '../Transform';
 import { useRatioTransform } from '../hooks/useRatioTransform';
-import { HandAction } from './interaction/GestureContext';
-import { start } from 'repl';
+import { StrokeData } from './Stroke';
+
 
 export type Tool = 'none' | 'pencil' | 'eraser' | 'color-picker';
 
@@ -18,6 +18,21 @@ export function Board(props: BoardProps) {
     const [rightTool, setRightTool] = useState<Tool>('none');
     const [leftGrabbing, setLeftGrabbing] = useState<boolean>(false);
     const [rightGrabbing, setRightGrabbing] = useState<boolean>(false);
+    const [leftInteracting, setLeftInteracting] = useState<boolean>(false);
+    const [rightInteracting, setRightInteracting] = useState<boolean>(false);
+    const [leftStroke, setLeftStroke] = useState<StrokeData>({
+        key: 'left-stroke',
+        color: 'black',
+        points: [],
+    });
+    const [rightStroke, setRightStroke] = useState<StrokeData>({
+        key: 'right-stroke',
+        color: 'black',
+        points: [],
+    });
+    const [leftColor, setLeftColor] = useState<string>('#000000');
+    const [rightColor, setRightColor] = useState<string>('#000000');
+    const [strokes, setStrokes] = useState<StrokeData[]>();
     const ratioTransform = useRatioTransform();
     const [transform, setTransform] = useState<Transform>(Transform.id());
     const [oldTransform, setOldTransform] = useState<Transform>(Transform.id());
@@ -84,6 +99,121 @@ export function Board(props: BoardProps) {
         }
     }
 
+    function startDraw(
+        left: VectorLike | undefined,
+        right: VectorLike | undefined
+    ) {
+        if (left !== undefined) {
+            setLeftStroke({
+                ...leftStroke,
+                points: [transform.inv().transform(ratioTransform.transform(left))],
+                color: leftColor,
+            });
+        }
+        if (right !== undefined) {
+            setRightStroke({
+                ...rightStroke,
+                points: [transform.inv().transform(ratioTransform.transform(right))],
+                color: rightColor,
+            });
+        }
+    }
+
+    function draw(
+        left: VectorLike | undefined,
+        right: VectorLike | undefined
+    ) {
+        if (left !== undefined && leftInteracting) {
+            setLeftStroke({
+                ...leftStroke,
+                points: [...leftStroke.points, transform.inv().transform(ratioTransform.transform(left))],
+            });
+        }
+        if (right !== undefined && rightInteracting) {
+            setRightStroke({
+                ...rightStroke,
+                points: [...rightStroke.points, transform.inv().transform(ratioTransform.transform(right))],
+            });
+        }
+    }
+
+    function stopDraw(
+        left: VectorLike | undefined,
+        right: VectorLike | undefined
+    ) {
+        const newStrokes = [];
+        if (left !== undefined && leftInteracting) {
+            if (leftStroke.points.length > 0) {
+                newStrokes.push({
+                    ...leftStroke,
+                    key: uuid(),
+                    points: [...leftStroke.points, transform.inv().transform(ratioTransform.transform(left))],
+                });
+                setLeftStroke({
+                    ...leftStroke,
+                    points: [],
+                    color: leftColor,
+                });
+            }
+        }
+        if (right !== undefined && rightInteracting) {
+            if (rightStroke.points.length > 0) {
+                newStrokes.push({
+                    ...rightStroke,
+                    key: uuid(),
+                    points: [...rightStroke.points, transform.inv().transform(ratioTransform.transform(right))],
+                });
+                setRightStroke({
+                    ...rightStroke,
+                    points: [],
+                    color: rightColor,
+                });
+            }
+        }
+        if (newStrokes.length > 0) {
+            setStrokes([...(strokes ?? []), ...newStrokes]);
+        }
+    }
+
+    function erase(
+        left: VectorLike | undefined,
+        right: VectorLike | undefined
+    ) {
+        if (strokes) {
+            const newStrokes = strokes
+            if (left !== undefined) {
+                const element = document.elementFromPoint(
+                    left.x * window.innerWidth,
+                    left.y * window.innerHeight,
+                );
+                if (element !== null && element.getAttribute('stroke-id') !== null) {
+                    const key = element.getAttribute('stroke-id');
+                    for (let i = 0; i < newStrokes.length; i++) {
+                        if (newStrokes[i].key === key) {
+                            newStrokes.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+            }
+            if (right !== undefined) {
+                const element = document.elementFromPoint(
+                    right.x * window.innerWidth,
+                    right.y * window.innerHeight,
+                );
+                if (element !== null && element.getAttribute('stroke-id') !== null) {
+                    const key = element.getAttribute('stroke-id');
+                    for (let i = 0; i < newStrokes.length; i++) {
+                        if (newStrokes[i].key === key) {
+                            newStrokes.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     return (
         <>
             <Toolbar
@@ -119,6 +249,11 @@ export function Board(props: BoardProps) {
                 </Toolbar.Button>
             </Toolbar>
             <Canvas
+                strokes={[
+                    leftStroke,
+                    rightStroke,
+                    ...(strokes ?? [])
+                ]}
                 transform={transform}
                 onGrabStart={startTransform}
                 onHandMove={(
@@ -126,8 +261,56 @@ export function Board(props: BoardProps) {
                     right: VectorLike | undefined
                 ) => {
                     updateTransform(left, right);
+                    if (leftInteracting || rightInteracting) {
+                        if (leftTool === 'pencil' || rightTool === 'pencil') {
+                            draw(
+                                (leftInteracting && leftTool === 'pencil') ? left : undefined,
+                                (rightInteracting && rightTool === 'pencil') ? right : undefined
+                            );
+                        }
+                        if (leftTool === 'eraser' || rightTool === 'eraser') {
+                            erase(
+                                (leftInteracting && leftTool === 'eraser') ? left : undefined,
+                                (rightInteracting && rightTool === 'eraser') ? right : undefined
+                            );
+                        }
+                    }
                 }}
                 onGrabStop={stopTransform}
+                onInteractStart={(
+                    left: VectorLike | undefined,
+                    right: VectorLike | undefined
+                )=>{
+                    if (leftTool === 'pencil' || rightTool === 'pencil') {
+                        startDraw(
+                            (leftTool === 'pencil') ? left : undefined,
+                            (rightTool === 'pencil') ? right : undefined
+                        );
+                    }
+                    if (left !== undefined) {
+                        setLeftInteracting(true);
+                    }
+                    if (right !== undefined) {
+                        setRightInteracting(true);
+                    }
+                }}
+                onInteractStop={(
+                    left: VectorLike | undefined,
+                    right: VectorLike | undefined
+                )=>{
+                    if (leftTool === 'pencil' || rightTool === 'pencil') {
+                        stopDraw(
+                            (leftTool === 'pencil') ? left : undefined,
+                            (rightTool === 'pencil') ? right : undefined
+                        );
+                    }
+                    if (left !== undefined) {
+                        setLeftInteracting(false);
+                    }
+                    if (right !== undefined) {
+                        setRightInteracting(false);
+                    }
+                }}
             />
             <Toolbar
                 vertical

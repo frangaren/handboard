@@ -31,7 +31,7 @@ function App() {
                                 width: 640,
                                 height: 480
                             }}
-                            multiplier={0.5}
+                            multiplier={0.75}
                             quantBytes={4}
                         >
                             <RequirePoseNet>

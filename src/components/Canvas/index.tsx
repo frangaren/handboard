@@ -4,9 +4,11 @@ import { useRatio } from '../../hooks/useRatio';
 import { Transform } from '../../Transform';
 
 import './index.css';
+import { Stroke, StrokeData } from '../Stroke';
 
 export interface CanvasProps {
     transform?: Transform,
+    strokes: StrokeData[],
 };
 
 export const Canvas = interactive<CanvasProps, SVGSVGElement>(forwardRef(
@@ -27,7 +29,14 @@ export const Canvas = interactive<CanvasProps, SVGSVGElement>(forwardRef(
                         (props.transform ?? Transform.id()).toString()
                     }
                 >
-                    <rect width='1' height='1' x='-0.5' y='-0.5' fill='red' />
+                    {
+                        props.strokes.map(stroke => (
+                            <Stroke
+                                key={stroke.key}
+                                value={stroke}
+                            />
+                        ))
+                    }
                 </g>
             </svg>
         );
