@@ -29,13 +29,14 @@ export class Transform {
         const det = this.matrix[0][0] * this.matrix[1][1]
             - this.matrix[0][1] * this.matrix[1][0];
         transform.matrix[0][0] = this.matrix[1][1];
-        transform.matrix[1][0] = this.matrix[1][0];
-        transform.matrix[0][1] = this.matrix[0][1];
+        transform.matrix[1][0] = -this.matrix[1][0];
+        transform.matrix[0][1] = -this.matrix[0][1];
         transform.matrix[1][1] = this.matrix[0][0];
         transform.matrix[0][2] = this.matrix[1][2] * this.matrix[0][1]
                                - this.matrix[1][1] * this.matrix[0][2];
         transform.matrix[1][2] = this.matrix[1][0] * this.matrix[0][2]
                                - this.matrix[1][2] * this.matrix[0][0];
+        transform.matrix[2][2] = 1;
         for (let i = 0; i < 2; i++) {
             for (let j = 0; j < 3; j++) {
                 transform.matrix[i][j] /= det;
@@ -168,6 +169,7 @@ export class Transform {
         transform.matrix[0][2] = b.x;
         transform.matrix[1][1] = b.y - a.y;
         transform.matrix[1][2] = a.y;
+        transform.matrix[2][2] = 1;
         return transform;
     }
 
