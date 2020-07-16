@@ -41,7 +41,6 @@ export function Board(props: BoardProps) {
         useState<VectorLike>(new Vector());
     const [lastRightPosition, setLastRightPosition] =
         useState<VectorLike>(new Vector());
-    const [canvas, setCanvas] = useState<SVGSVGElement | null>(null);
 
     function startTransform(
         left: VectorLike | undefined,
